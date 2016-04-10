@@ -16,6 +16,10 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button loginButton = (Button) findViewById( R.id.loginButton );
         loginButton.setOnClickListener(createLoginButtonListener());
+
+        Button fbLoginButton = (Button) findViewById(R.id.fbLoginButton);
+        fbLoginButton.setOnClickListener(createFBLoginButtonListner());
 
     }
 
@@ -179,6 +186,39 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    /**
+     * Creates a listener, which proceeds with login with Facebook on button click.
+     *
+     * @return a listener, handling login with Facebook button click
+     */
+    public View.OnClickListener createFBLoginButtonListner()
+    {
+        return new View.OnClickListener()
+        {
+            @Override
+            public void onClick( View v )
+            {
+                LoadingCallback<BackendlessUser> loginCallback = createLoginCallback();
+
+                loginCallback.showLoading();
+                loginFacebookUser( loginCallback );
+            }
+        };
+    }
+
+    /**
+     * Sends a request to Backendless to log in user with Facebook account.
+     * Fetches Facebook user's name and saves it on Backendless.
+     *
+     * @param loginCallback a callback, containing actions to be executed on request result
+     */
+    public void loginFacebookUser( AsyncCallback<BackendlessUser> loginCallback )
+    {
+        Map<String, String> fieldsMappings = new HashMap<>();
+        fieldsMappings.put( "name", "name" );
+        Backendless.UserService.loginWithFacebook( this, null, fieldsMappings, Collections.<String>emptyList(), loginCallback );
     }
 
     /**

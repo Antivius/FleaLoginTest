@@ -30,7 +30,7 @@ public class UserActivity extends AppCompatActivity {
 
         userText = (TextView)findViewById(R.id.currentUser);
         if (userText != null) {
-            userText.setText(getCurrent().toString());
+            userText.setText("Hello "+getCurrent().getProperty("name").toString());
         }
 
         Button loginButton = (Button) findViewById( R.id.logout_button );

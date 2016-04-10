@@ -46,4 +46,13 @@
         android:layout_below="@+id/loginButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FB Login"
+        android:id="@+id/fbLoginButton"
+        android:layout_below="@+id/registerButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
