@@ -14,6 +14,9 @@ import com.backendless.UserService;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+
 public class UserActivity extends AppCompatActivity {
 
     private static final String APP_ID = "C9435C02-8205-26CC-FF63-3067244CAF00";
@@ -27,11 +30,21 @@ public class UserActivity extends AppCompatActivity {
 
         String appVersion = "v1";
         com.backendless.Backendless.initApp(this, APP_ID, SECRET_KEY, appVersion);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         userText = (TextView)findViewById(R.id.currentUser);
         if (userText != null) {
-            userText.setText("Hello "+getCurrent().getProperty("name").toString());
+            String userName;
+            if (getCurrent().getProperty("name").toString() !=null){
+                userName = getCurrent().getProperty("name").toString();
+                userText.setText("Hello "+userName);
+            }
+            else {
+                userText.setText("Default");
+            }
+
         }
+
 
         Button loginButton = (Button) findViewById( R.id.logout_button );
         loginButton.setOnClickListener(createLogoutButtonListener());
@@ -48,6 +61,7 @@ public class UserActivity extends AppCompatActivity {
         {
             @Override
             public void onClick( View v ) {
+                LoginManager.getInstance().logOut();
                 Backendless.UserService.logout(new AsyncCallback<Void>() {
                     @Override
                     public void handleResponse(Void aVoid) {

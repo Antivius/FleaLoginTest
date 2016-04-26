@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         String appVersion = "v1";
         Backendless.initApp(this, APP_ID, SECRET_KEY, appVersion);
@@ -44,16 +47,21 @@ public class MainActivity extends AppCompatActivity {
         mPasswordView = (EditText)findViewById(R.id.password);
 
         Button registerButton = (Button) findViewById( R.id.registerButton );
-
-        View.OnClickListener registerButtonClickListener = createRegisterButtonClickListener();
-
-        registerButton.setOnClickListener( registerButtonClickListener );
+        //View.OnClickListener registerButtonClickListener = createRegisterButtonClickListener();
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goRegistration();
+            }
+        });
 
         Button loginButton = (Button) findViewById( R.id.loginButton );
         loginButton.setOnClickListener(createLoginButtonListener());
 
         Button fbLoginButton = (Button) findViewById(R.id.fbLoginButton);
         fbLoginButton.setOnClickListener(createFBLoginButtonListner());
+
+        LoginManager.getInstance().logOut(); //Logout facebook user if left logged in from last time
 
     }
 
@@ -116,18 +124,6 @@ public class MainActivity extends AppCompatActivity {
     public void loginUser( String email, String password, AsyncCallback<BackendlessUser> loginCallback )
     {
         Backendless.UserService.login(email, password, loginCallback);
-    }
-
-    public void sign_in(View view){
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        BackendlessUser user = new BackendlessUser();
-
-        user = Backendless.UserService.login( email, password );
-        Log.i("Sign in", email);
-
-
     }
 
     public LoadingCallback<BackendlessUser> createRegistrationCallback()
@@ -249,5 +245,11 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean isLoginValid(String email,String password){
         return Validator.isLoginValid();
+    }
+
+    public void goRegistration(){
+        Intent registrationIntent = new Intent( MainActivity.this, UserRegistration.class );
+        startActivity( registrationIntent );
+        finish();
     }
 }

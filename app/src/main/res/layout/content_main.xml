@@ -43,9 +43,10 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="Register"
         android:textStyle="bold"
-        android:layout_below="@+id/loginButton"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <Button
         style="?android:textAppearanceSmall"
@@ -53,6 +54,15 @@
         android:layout_height="wrap_content"
         android:text="FB Login"
         android:id="@+id/fbLoginButton"
-        android:layout_below="@+id/registerButton"
+        android:layout_below="@+id/loginButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or make a new account"
+        android:id="@+id/textView"
+        android:layout_below="@+id/fbLoginButton"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
