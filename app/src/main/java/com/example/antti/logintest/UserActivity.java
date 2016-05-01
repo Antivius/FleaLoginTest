@@ -63,9 +63,10 @@ public class UserActivity extends AppCompatActivity {
             public void onClick( View v ) {
                 LoginManager.getInstance().logOut();
                 Backendless.UserService.logout(new AsyncCallback<Void>() {
+
                     @Override
                     public void handleResponse(Void aVoid) {
-
+                        goBack();
                     }
 
                     @Override
@@ -75,6 +76,25 @@ public class UserActivity extends AppCompatActivity {
                 });
             }
         };
+    }
+    public void goBack(){
+        Intent backIntent = new Intent( UserActivity.this, MainActivity.class );
+        startActivity(backIntent);
+        finish();
+    }
+
+    public void changeText(){
+        if (userText != null) {
+            String userName;
+            if (getCurrent().getProperty("name").toString() !=null){
+                userName = getCurrent().getProperty("name").toString();
+                userText.setText("Hello "+userName);
+            }
+            else {
+                userText.setText("Default");
+            }
+
+        }
     }
 
 }

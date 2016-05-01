@@ -34,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
 
         String appVersion = "v1";
         Backendless.initApp(this, APP_ID, SECRET_KEY, appVersion);
@@ -109,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    /**
+
     public void registerUser(  String email, String password,
                               AsyncCallback<BackendlessUser> registrationCallback )
     {
@@ -120,11 +123,14 @@ public class MainActivity extends AppCompatActivity {
         //Backendless handles password hashing by itself, so we don't need to send hash instead of plain text
         Backendless.UserService.register(user, registrationCallback);
     }
+     */
+
 
     public void loginUser( String email, String password, AsyncCallback<BackendlessUser> loginCallback )
     {
         Backendless.UserService.login(email, password, loginCallback);
     }
+    /**
 
     public LoadingCallback<BackendlessUser> createRegistrationCallback()
     {
@@ -142,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean is_email_valid(String email){
         return email.contains("@");
     }
+
 
     public View.OnClickListener createRegisterButtonClickListener()
     {
@@ -163,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+     */
 
     public View.OnClickListener createLoginButtonListener()
     {
@@ -212,8 +220,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public void loginFacebookUser( AsyncCallback<BackendlessUser> loginCallback )
     {
+        /**
+         * first field: Facebook API field name
+         * second field: name of the field in Backendless table
+         */
+
         Map<String, String> fieldsMappings = new HashMap<>();
-        fieldsMappings.put( "name", "name" );
+        fieldsMappings.put( "first_name", "name" );
+        fieldsMappings.put("last_name","lastname");
+        //fieldsMappings.put("email","email");
         Backendless.UserService.loginWithFacebook( this, null, fieldsMappings, Collections.<String>emptyList(), loginCallback );
     }
 
